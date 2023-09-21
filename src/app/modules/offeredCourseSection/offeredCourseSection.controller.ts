@@ -3,30 +3,30 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { semesterRegistrationFilterableFields } from './semesterRegistration.constant';
-import { SemesterRegistrationService } from './semesterRegistration.service';
+import { offeredCourseSectionFilterableFields } from './offeredCourseSection.constant';
+import { OfferedCourseSectionService } from './offeredCourseSection.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const result = await SemesterRegistrationService.insertIntoDB(req.body);
+  const result = await OfferedCourseSectionService.insertIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Semester Registration created',
+    message: 'Offered Course Section created',
     data: result,
   });
 });
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, semesterRegistrationFilterableFields);
+  const filters = pick(req.query, offeredCourseSectionFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  const result = await SemesterRegistrationService.getAllFromDB(
+  const result = await OfferedCourseSectionService.getAllFromDB(
     filters,
     options
   );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'SemesterRegistrations fetched successfully',
+    message: 'OfferedCourseSections fetched successfully',
     meta: result.meta,
     data: result.data,
   });
@@ -34,55 +34,41 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await SemesterRegistrationService.getByIdFromDB(id);
+  const result = await OfferedCourseSectionService.getByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'SemesterRegistration fetched successfully',
+    message: 'OfferedCourseSection fetched successfully',
     data: result,
   });
 });
 
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await SemesterRegistrationService.updateOneInDB(id, req.body);
+  const result = await OfferedCourseSectionService.updateOneInDB(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'SemesterRegistration updated successfully',
+    message: 'OfferedCourseSection updated successfully',
     data: result,
   });
 });
 
 const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await SemesterRegistrationService.deleteByIdFromDB(id);
+  const result = await OfferedCourseSectionService.deleteByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'SemesterRegistration deleted successfully',
+    message: 'OfferedCourseSection deleted successfully',
     data: result,
   });
 });
 
-const startMyRegistration = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await SemesterRegistrationService.startMyRegistration(
-    user.userId
-  );
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student SemesterRegistration started successfully',
-    data: result,
-  });
-});
-
-export const SemesterRegistrationController = {
+export const OfferedCourseSectionController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
   updateOneInDB,
   deleteByIdFromDB,
-  startMyRegistration,
 };
