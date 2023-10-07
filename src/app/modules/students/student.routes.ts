@@ -8,6 +8,12 @@ const router = express.Router();
 
 router.get('/', StudentsController.getAllFromDB);
 
+router.get(
+  '/my-courses',
+  auth(ENUM_USER_ROLE.STUDENT),
+  StudentsController.myCourses
+);
+
 router.get('/:id', StudentsController.getByIdFromDB);
 
 router.post(
