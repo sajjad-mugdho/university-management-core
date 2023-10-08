@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
@@ -136,6 +137,21 @@ const getMyRegistration = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMySemesterRegCouses = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = (req as any).user;
+    const result = await SemesterRegistrationService.getMySemesterRegCouses(
+      user.userId
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'My registration courses data fatched!',
+      data: result,
+    });
+  }
+);
+
 export const SemesterRegistrationController = {
   insertIntoDB,
   getAllFromDB,
@@ -147,4 +163,5 @@ export const SemesterRegistrationController = {
   withdrawFromCourse,
   getMyRegistration,
   confirmMyRegistration,
+  getMySemesterRegCouses,
 };
